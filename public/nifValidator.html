@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>NIF Validator</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/niss-generator.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="top" class="header">
+		<div class="text-vertical-center">
+			<ul>
+				<li><a href="./index.html">NISS Generator</a></li>
+				<li><a href="./nifValidator.html">NIF Validator</a></li>
+				<li><a href="./nifGenerator.html">NIF Generator</a></li>
+			</ul>	
+		</div>
+		<div class="fill-8perc">
+		</div>
+        <div class="text-vertical-center">
+            <h1>Validator NIF</h1>
+            <input class="margin-25" id="nif"></h3>
+            <br>
+            <a onclick="validaContribuinte()" class="btn btn-dark btn-lg">Validate</a>
+        </div>
+    </header>  
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script>
+	function validaContribuinte(){
+// algoritmo de validação do NIF de acordo com
+// http://pt.wikipedia.org/wiki/N%C3%BAmero_de_identifica%C3%A7%C3%A3o_fiscal
+
+var contribuinte = document.getElementById("nif").value;
+
+var temErro=0;
+
+if (
+contribuinte.substr(0,1) != '1' && // pessoa singular
+contribuinte.substr(0,1) != '2' && // pessoa singular
+contribuinte.substr(0,1) != '3' && // pessoa singular
+contribuinte.substr(0,2) != '45' && // pessoa singular não residente
+contribuinte.substr(0,1) != '5' && // pessoa colectiva
+contribuinte.substr(0,1) != '6' && // administração pública
+contribuinte.substr(0,2) != '70' && // herança indivisa
+contribuinte.substr(0,2) != '71' && // pessoa colectiva não residente
+contribuinte.substr(0,2) != '72' && // fundos de investimento
+contribuinte.substr(0,2) != '77' && // atribuição oficiosa
+contribuinte.substr(0,2) != '79' && // regime excepcional
+contribuinte.substr(0,1) != '8' && // empresário em nome individual (extinto)
+contribuinte.substr(0,2) != '90' && // condominios e sociedades irregulares
+contribuinte.substr(0,2) != '91' && // condominios e sociedades irregulares
+contribuinte.substr(0,2) != '98' && // não residentes
+contribuinte.substr(0,2) != '99' // sociedades civis
+
+) { temErro=1;}
+var check1 = contribuinte.substr(0,1)*9;
+var check2 = contribuinte.substr(1,1)*8;
+var check3 = contribuinte.substr(2,1)*7;
+var check4 = contribuinte.substr(3,1)*6;
+var check5 = contribuinte.substr(4,1)*5;
+var check6 = contribuinte.substr(5,1)*4;
+var check7 = contribuinte.substr(6,1)*3;
+var check8 = contribuinte.substr(7,1)*2;
+
+var total= check1 + check2 + check3 + check4 + check5 + check6 + check7 + check8;
+var divisao= total / 11;
+var modulo11=total - parseInt(divisao)*11;
+if ( modulo11==1 || modulo11==0){ comparador=0; } // excepção
+else { comparador= 11-modulo11;}
+
+
+var ultimoDigito=contribuinte.substr(8,1)*1;
+if ( ultimoDigito != comparador ){ temErro=1;}
+
+if (temErro==1){ alert('O numero de contribuinte parece estar errado' ); }
+else{alert('O numero de contribuinte é válido' );}
+
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+	
+	
+	
+	
+    // Closes the sidebar menu
+    $("#menu-close").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+
+    // Opens the sidebar menu
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+
+    // Scrolls to the selected menu item on the page
+    $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+    </script>
+
+</body>
+
+</html>

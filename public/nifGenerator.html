@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>NIF Generator</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/niss-generator.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="top" class="header">
+		<div class="text-vertical-center">
+			<ul>
+				<li><a href="./index.html">NISS Generator</a></li>
+				<li><a href="./nifValidator.html">NIF Validator</a></li>
+				<li><a href="./nifGenerator.html">NIF Generator</a></li>
+			</ul>	
+		</div>
+		<div class="fill-8perc">
+		</div>
+        <div class="text-vertical-center">
+            <h1>NIF Generator</h1>
+            <h3 id="nif">Try it!</h3>
+            <br>
+            <a onclick="geraContribuinte()" class="btn btn-dark btn-lg">Generate</a>
+        </div>
+    </header>  
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script>
+	function geraContribuinte(){
+
+	var i1 = getRandomInt(1, 2);
+	var i2 = getRandomInt(0, 9);
+	var i3 = getRandomInt(0, 9);
+	var i4 = getRandomInt(0, 9);
+	var i5 = getRandomInt(0, 9);
+	var i6 = getRandomInt(0, 9);
+	var i7 = getRandomInt(0, 9);
+	var i8 = getRandomInt(0, 9);
+
+	var check1 = i1*9;
+	var check2 = i2*8;
+	var check3 = i3*7;
+	var check4 = i4*6;
+	var check5 = i5*5;
+	var check6 = i6*4;
+	var check7 = i7*3;
+	var check8 = i8*2;
+	
+	var total= check1 + check2 + check3 + check4 + check5 + check6 + check7 + check8;
+	var divisao= total / 11;
+	var modulo11=total - parseInt(divisao)*11;
+	if ( modulo11==1 || modulo11==0){ comparador=0; } // excepção
+	else { comparador= 11-modulo11;}
+	
+	
+	document.getElementById('nif').innerHTML = "NIF: " + i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + comparador;
+
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+	
+	
+	
+	
+    // Closes the sidebar menu
+    $("#menu-close").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+
+    // Opens the sidebar menu
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+
+    // Scrolls to the selected menu item on the page
+    $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+    </script>
+
+</body>
+
+</html>
